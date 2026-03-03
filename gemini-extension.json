@@ -1,0 +1,20 @@
+{
+  "name": "symfony-ux-skills",
+  "version": "1.0.0",
+  "description": "AI agent skills for the Symfony UX frontend stack: Stimulus, Turbo, TwigComponent, and LiveComponent.",
+  "author": {
+    "name": "Simon Andre",
+    "email": "smn.andre@gmail.com",
+    "url": "https://smnandre.dev"
+  },
+  "license": "MIT",
+  "keywords": [
+    "symfony",
+    "ux",
+    "stimulus",
+    "turbo",
+    "twig-component",
+    "live-component",
+    "agent-skills"
+  ]
+}

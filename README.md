@@ -1,5 +1,7 @@
 # Symfony UX -- Agent Skills
 
+![Trigger warning animals](https://repository-images.githubusercontent.com/1171056549/6dee3166-2b48-449b-ad26-667ee821ff35)
+
 AI agent skills for the **Symfony UX** frontend stack.
 
 Built on the [Agent Skills](https://agentskills.io/specification) open standard.

@@ -74,7 +74,7 @@ Optional entry-point files for your project root. They provide a quick decision 
 
 ## Installation
 
-### Claude Code Plugin (recommended)
+### Claude Code Plugin
 
 This repository is installable as a [Claude Code plugin](https://code.claude.com/docs/en/plugins). Skills are automatically discovered and namespaced under `symfony-ux:`.
 
@@ -86,7 +86,15 @@ claude --plugin-dir /path/to/symfony-ux-skills
 claude plugin install symfony-ux
 ```
 
-### Manual installation
+### Vercel's Skills CLI
+
+```bash
+npx skills add smnandre/symfony-ux-skills
+```
+
+### Manual Installation
+
+#### 1. Install the skills
 
 Copy each skill directory into the skills location for your platform.
 
@@ -124,7 +132,7 @@ mkdir -p .codex/skills
 cp -r skills/* .codex/skills/
 ```
 
-### 2. Add project context (optional)
+#### 2. Add project context (optional)
 
 Copy the entry-point file for your platform to your project root:
 

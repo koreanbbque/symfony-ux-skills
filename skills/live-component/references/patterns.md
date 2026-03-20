@@ -12,21 +12,18 @@ final class ProductSearch
 {
     use DefaultActionTrait;
     
-    #[LiveProp(writable: true, url: true)]
+    #[LiveProp(writable: true, url: true, onUpdated: 'resetPage')]
     public string $query = '';
-    
+
     #[LiveProp(writable: true, url: true)]
     public string $category = '';
-    
+
     #[LiveProp(writable: true, url: true)]
     public int $page = 1;
-    
+
     public function __construct(
         private readonly ProductRepository $products,
     ) {}
-    
-    #[LiveProp(writable: true, onUpdated: 'resetPage')]
-    public string $query = '';
     
     public function resetPage(): void
     {

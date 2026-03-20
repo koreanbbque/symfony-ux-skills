@@ -2,48 +2,112 @@
 
 ![Trigger warning animals](https://repository-images.githubusercontent.com/1171056549/6dee3166-2b48-449b-ad26-667ee821ff35)
 
-AI agent skills for the **Symfony UX** frontend stack.
+AI agent skills for the [Symfony UX](https://ux.symfony.com) frontend stack -- Stimulus, Turbo, TwigComponent, LiveComponent, UX Icons and UX Map.
 
-Built on the [Agent Skills](https://agentskills.io/specification) open standard.
-Compatible with Claude Code, Gemini CLI, OpenAI Codex, Cursor, Windsurf, and any platform that supports `SKILL.md`.
-
----
+By [Simon Andre](https://github.com/smnandre)
 
 ## Skills
 
-Each skill is a self-contained directory following the [agentskills.io](https://agentskills.io/specification) specification: a `SKILL.md` with YAML frontmatter and markdown instructions, plus optional `references/` for API docs, patterns and gotchas.
+| Skill | What it does | When the agent activates it | Refs |
+|---|---|---|:---:|
+| **[symfony-ux](skills/symfony-ux/)** | Orchestrator / decision tree | The developer asks "which UX tool should I use?" or a question that spans multiple packages | -- |
+| **[stimulus](skills/stimulus/)** | Stimulus controllers, targets, values, actions, outlets | Client-side JS behavior -- toggles, dropdowns, modals, wrapping a JS library | api, patterns, gotchas |
+| **[turbo](skills/turbo/)** | Turbo Drive, Frames, Streams, Mercure | Partial page updates, SPA-like nav, real-time server pushes -- no JS to write | api, patterns, gotchas |
+| **[twig-component](skills/twig-component/)** | TwigComponent props, blocks, computed properties, anonymous components | Reusable UI building blocks -- buttons, cards, alerts, design system | api, patterns, gotchas |
+| **[live-component](skills/live-component/)** | LiveComponent props, actions, data-model, forms, emit, defer/lazy | Reactive server-rendered UI -- live search, validation, dependent selects | api, patterns, gotchas |
+| **[ux-icons](skills/ux-icons/)** | SVG icons via Iconify, local files, aliases, CLI | Rendering icons in Twig -- Lucide, Heroicons, Tabler, Material Design, etc. | api, patterns, gotchas |
+| **[ux-map](skills/ux-map/)** | Interactive maps with Leaflet / Google Maps | Maps with markers, polygons, polylines, circles, events, LiveComponent integration | api, patterns, gotchas |
 
-| Skill | Description | References |
-|---|---|:---:|
-| **symfony-ux** | Orchestrator -- decision tree for choosing between Stimulus, Turbo, TwigComponent and LiveComponent | -- |
-| **stimulus** | Stimulus controllers, targets, values, actions, classes, outlets, lifecycle | api, patterns, gotchas |
-| **turbo** | Turbo Drive, Frames, Streams, Mercure integration, `<twig:Turbo:Stream:*>` | api, patterns, gotchas |
-| **twig-component** | TwigComponent props, blocks, computed properties, anonymous components, HTML syntax | api, patterns |
-| **live-component** | LiveComponent props, actions, data-model binding, forms, emit, defer/lazy | api, patterns, gotchas |
+**Upstream packages:**
+[symfony/stimulus-bundle](https://packagist.org/packages/symfony/stimulus-bundle) --
+[symfony/ux-turbo](https://packagist.org/packages/symfony/ux-turbo) --
+[symfony/ux-twig-component](https://packagist.org/packages/symfony/ux-twig-component) --
+[symfony/ux-live-component](https://packagist.org/packages/symfony/ux-live-component) --
+[symfony/ux-icons](https://packagist.org/packages/symfony/ux-icons) --
+[symfony/ux-map](https://packagist.org/packages/symfony/ux-map)
+
+## Installation
+
+### Claude Code Plugin
+
+This repository is installable as a [Claude Code plugin](https://docs.claude.com/en/docs/claude-code/plugins). Skills are automatically discovered and namespaced under `symfony-ux:`.
+
+```bash
+# Test locally
+claude --plugin-dir /path/to/symfony-ux-skills
+
+# Or install from a marketplace (if available)
+claude plugin install symfony-ux
+```
+
+### Vercel's Skills CLI
+
+```bash
+npx skills add smnandre/symfony-ux-skills
+```
+
+### Manual installation
+
+Copy each skill directory into your platform's skills location:
+
+```bash
+# Claude Code (project-level, shared via git)
+mkdir -p .claude/skills && cp -r skills/* .claude/skills/
+
+# Claude Code (user-level, available everywhere)
+cp -r skills/* ~/.claude/skills/
+
+# Gemini CLI
+mkdir -p ~/.gemini/skills && cp -r skills/* ~/.gemini/skills/
+
+# OpenAI Codex
+mkdir -p .codex/skills && cp -r skills/* .codex/skills/
+```
+
+Then optionally copy the context file for your platform to your project root:
+
+```bash
+cp CLAUDE.md /path/to/project/   # Claude Code
+cp AGENTS.md /path/to/project/   # OpenAI Codex
+cp GEMINI.md /path/to/project/   # Gemini CLI
+```
+
+## How it works
+
+Agent skills are structured knowledge files that teach AI coding agents *how* to use a library. Instead of relying on training data (which may be outdated or incomplete), the agent reads the skill at runtime and gets accurate, version-specific guidance: API references, common patterns, and known gotchas.
+
+Each skill follows a **progressive disclosure** pattern:
+
+1. **Description** (YAML frontmatter) -- always loaded; tells the agent *when* to activate the skill (~100 words)
+2. **SKILL.md body** -- loaded on activation; quick-reference with the most important rules and examples
+3. **references/** -- loaded on demand; deep API docs, advanced patterns, and common pitfalls
+
+This means the agent only pulls in what it needs, keeping context windows lean.
+
+Built on the [Agent Skills](https://agentskills.io/specification) open standard. Compatible with **Claude Code**, **Gemini CLI**, **OpenAI Codex**, **Cursor**, **Windsurf**, and any platform that supports `SKILL.md`.
 
 ## Project context files
 
-Optional entry-point files for your project root. They provide a quick decision tree and key rules so the agent knows when to reach for which skill.
+Optional files for your project root. They give the agent a quick decision tree and key rules so it knows which skill to reach for.
 
 | File | Platform |
 |---|---|
 | `CLAUDE.md` | Claude Code |
 | `AGENTS.md` | OpenAI Codex |
 | `GEMINI.md` | Gemini CLI |
-| `llms.txt` | Web / any LLM ([llmstxt.org](https://llmstxt.org) standard) |
+| `llms.txt` | Web / any LLM ([llmstxt.org](https://llmstxt.org)) |
 
 ## Repository structure
 
 ```
 .
+├── CLAUDE.md                   # Context file for Claude Code
+├── AGENTS.md                   # Context file for OpenAI Codex
+├── GEMINI.md                   # Context file for Gemini CLI
+├── llms.txt                    # Context file for web / LLMs
 ├── .claude-plugin/
-│   └── plugin.json
-├── README.md
-├── LICENSE
-├── CLAUDE.md
-├── AGENTS.md
-├── GEMINI.md
-├── llms.txt
+│   └── plugin.json             # Claude Code plugin manifest
+├── gemini-extension.json       # Gemini CLI extension manifest
 └── skills/
     ├── symfony-ux/
     │   └── SKILL.md
@@ -63,8 +127,21 @@ Optional entry-point files for your project root. They provide a quick decision 
     │   ├── SKILL.md
     │   └── references/
     │       ├── api.md
-    │       └── patterns.md
-    └── live-component/
+    │       ├── patterns.md
+    │       └── gotchas.md
+    ├── live-component/
+    │   ├── SKILL.md
+    │   └── references/
+    │       ├── api.md
+    │       ├── patterns.md
+    │       └── gotchas.md
+    ├── ux-icons/
+    │   ├── SKILL.md
+    │   └── references/
+    │       ├── api.md
+    │       ├── patterns.md
+    │       └── gotchas.md
+    └── ux-map/
         ├── SKILL.md
         └── references/
             ├── api.md
@@ -72,94 +149,15 @@ Optional entry-point files for your project root. They provide a quick decision 
             └── gotchas.md
 ```
 
-## Installation
-
-### Claude Code Plugin
-
-This repository is installable as a [Claude Code plugin](https://code.claude.com/docs/en/plugins). Skills are automatically discovered and namespaced under `symfony-ux:`.
-
-```bash
-# Test locally
-claude --plugin-dir /path/to/symfony-ux-skills
-
-# Or install from a marketplace (if available)
-claude plugin install symfony-ux
-```
-
-### Vercel's Skills CLI
-
-```bash
-npx skills add smnandre/symfony-ux-skills
-```
-
-### Manual Installation
-
-#### 1. Install the skills
-
-Copy each skill directory into the skills location for your platform.
-
-**Claude Code:**
-
-```bash
-# User-level (available in all projects)
-cp -r skills/stimulus    ~/.claude/skills/
-cp -r skills/turbo       ~/.claude/skills/
-cp -r skills/twig-component  ~/.claude/skills/
-cp -r skills/live-component  ~/.claude/skills/
-cp -r skills/symfony-ux  ~/.claude/skills/
-
-# Or project-level (shared via git)
-mkdir -p .claude/skills
-cp -r skills/* .claude/skills/
-```
-
-**Gemini CLI:**
-
-```bash
-mkdir -p ~/.gemini/skills
-cp -r skills/* ~/.gemini/skills/
-```
-
-**OpenAI Codex:**
-
-```bash
-# User-level
-mkdir -p ~/.codex/skills
-cp -r skills/* ~/.codex/skills/
-
-# Or project-level
-mkdir -p .codex/skills
-cp -r skills/* .codex/skills/
-```
-
-#### 2. Add project context (optional)
-
-Copy the entry-point file for your platform to your project root:
-
-```bash
-cp CLAUDE.md /path/to/project/   # Claude Code
-cp AGENTS.md /path/to/project/   # OpenAI Codex
-cp GEMINI.md /path/to/project/   # Gemini CLI
-```
-
-These files reference skills by name. The agent discovers them automatically from the skills directory.
-
 ## Coverage
 
-Targets Symfony UX 2.22--2.28+, Symfony 7.2 / 7.4 / 8.0, PHP 8.4+.
+Targets **Symfony UX 2.22 -- 2.28+**, Symfony 7.2 / 7.4 / 8.0, PHP 8.4+.
 
-Documented features include:
-
-- `<twig:Turbo:Stream:*>` Twig component syntax (since UX 2.22)
-- `TurboStreamResponse` helper
-- LiveProp URL binding and validation modifiers (`min_length`, `max_length`, `min_value`, `max_value`)
-- CVE-2025-47946 -- `ComponentAttributes` injection advisory
-- `defer` / `lazy` loading for LiveComponents
-- UX Toolkit (copy-paste UI components)
+Documented features include `<twig:Turbo:Stream:*>` component syntax (UX 2.22), `TurboStreamResponse` helper, LiveProp URL binding with validation modifiers, `defer` / `lazy` loading for LiveComponents, UX Toolkit (copy-paste UI components), Iconify on-demand icons with `ux:icons:lock` CLI, and UX Map with Leaflet/Google Maps renderers including polygons, polylines, circles and `ComponentWithMapTrait`.
 
 ## Author
 
-Simon Andre -- [smnandre.dev](https://smnandre.dev) -- smn.andre@gmail.com
+Simon Andre -- [smnandre.dev](https://smnandre.dev) -- [GitHub](https://github.com/smnandre) -- [Twitter](https://x.com/simonandre)
 
 ## License
 

@@ -36,7 +36,8 @@ This repository is installable as a [Claude Code plugin](https://docs.claude.com
 # Test locally
 claude --plugin-dir /path/to/symfony-ux-skills
 
-# Or install from a marketplace (if available)
+# Or install from marketplace
+claude plugin install smnandre/symfony-ux-skills
 claude plugin install symfony-ux
 ```
 

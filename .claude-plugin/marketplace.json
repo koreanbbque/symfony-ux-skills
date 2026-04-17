@@ -1,0 +1,19 @@
+{
+  "name": "symfony-ux",
+  "owner": {
+    "name": "Simon Andre",
+    "email": "smn.andre@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "symfony-ux",
+      "description": "AI agent skills for the Symfony UX frontend stack: Stimulus, Turbo, TwigComponent, LiveComponent, UX Icons, and UX Map.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Simon Andre",
+        "email": "smn.andre@gmail.com"
+      },
+      "source": "./"
+    }
+  ]
+}
